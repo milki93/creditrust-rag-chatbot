@@ -4,5 +4,6 @@ __pycache__/
 .env/
 .env
 vector_store/
-data/processed/
+data/
+
 
