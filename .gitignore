@@ -4,5 +4,10 @@ __pycache__/
 .env/
 .env
 vector_store/
+<<<<<<< HEAD
 data/raw/
+=======
+data/
+
+>>>>>>> 243784c06db8d18a76ab62796f35a217ad6390b6
 
