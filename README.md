@@ -21,7 +21,6 @@ To get the project up and running, follow these steps:
     git clone https://github.com/milki93/creditrust-rag-chatbot.git
     cd creditrust-rag-chatbot
     ```
-    *(If you are already in the project directory, skip this step)*
 
 2.  **Create and activate a Python virtual environment:**
     ```bash
@@ -33,9 +32,6 @@ To get the project up and running, follow these steps:
     ```bash
     pip install -r requirements.txt
     ```
-    *(Note: You might need to manually ensure `gradio`, `sentence-transformers`, `transformers`, `faiss-cpu`, and `pandas` are in your `requirements.txt` or install them directly if issues arise.)*
-
-4.  **Place Raw Data:** Ensure your raw complaint data (`complaints.csv`) is located in `data/raw/`. If you are using a pre-filtered dataset, ensure `filtered_complaints.csv` is in `data/processed/`.
 
 ---
 
@@ -63,8 +59,6 @@ This component converts cleaned narratives into numerical vector embeddings and 
     *   Generates embeddings using `sentence-transformers/all-MiniLM-L6-v2`.
     *   Creates and saves a FAISS vector index (`complaints_faiss.index`) and associated metadata (`complaints_metadata.pkl`) to `vector_store/`.
 
-*   **Key File:** `src/embedding.py`
-
 *   **How to Build the Vector Store:**
     If you've updated `data/processed/filtered_complaints.csv` or changed chunking parameters, rebuild the vector store:
     ```bash
@@ -79,23 +73,14 @@ This is the core pipeline responsible for retrieving relevant information and ge
 *   **What it Does:**
     *   **Retrieval:** Embeds user queries and searches the FAISS vector store to retrieve the top 1 most relevant complaint chunk (`k=1`).
     *   **Generation:** Uses a refined prompt to combine the query and retrieved chunk, which is then fed to the `google/flan-t5-small` language model (LLM). It generates a concise answer, instructed to use only the provided context and state if information is insufficient.
-    *   **Evaluation:** Includes an automated qualitative evaluation that runs predefined questions and appends results (answers, sources, quality scores) as a Markdown table to this `README.md`.
-
-*   **Key Files:** `src/rag/rag_pipeline.py`, `src/chatbot/retriever.py`
-
-*   **RAG Architecture:**
-    **![High-Level RAG Architecture Diagram](images/rag_architecture.png)**
-    *Description: A visual representation of the RAG pipeline's information flow, from user query to generated answer and retrieved sources. (You can generate this from the Mermaid code provided previously in the chat).*
+    *   **Evaluation:** Includes an automated qualitative evaluation that runs predefined questions.
 
 *   **Qualitative Evaluation Results:**
-    To run the RAG pipeline's internal evaluation and append the results to this `README.md`:
+    To run the RAG pipeline's internal evaluation:
     ```bash
     source venv/bin/activate
     python3 -m src.rag.rag_pipeline
     ```
-    **(The generated evaluation table will appear here after you run the above command.)**
-    **![Evaluation Results Table](images/evaluation_table.png)**
-    *Description: A screenshot of the qualitative evaluation results table, showing sample questions, AI-generated answers, retrieved sources, quality scores, and analysis comments. (You'll need to run the `rag_pipeline.py` to generate this section, then optionally screenshot it for the image).*
 
 ### 4. Interactive Chat Interface
 
@@ -107,7 +92,6 @@ This Gradio-based web application provides a user-friendly way to interact with 
     *   Displays retrieved source text snippets below AI answers for transparency.
     *   Includes a basic streaming simulation for AI responses.
 
-*   **Key File:** `app.py`
 
 *   **How to Run the Chatbot Interface:**
     ```bash
@@ -115,13 +99,6 @@ This Gradio-based web application provides a user-friendly way to interact with 
     python3 app.py
     ```
     Open the local URL (e.g., `http://127.0.0.1:7860`) displayed in your terminal in a web browser.
-
-*   **Chatbot Visuals:**
-    **![Screenshot of Chatbot Interface](images/chatbot_screenshot.png)**
-    *Description: A screenshot of the running CrediTrust Complaint Assistant Gradio interface, showcasing a sample user query, the AI's response, and the retrieved sources.*
-
-    **![GIF of Chatbot Interaction (Optional)](images/chatbot_interaction.gif)**
-    *Description: An optional animated GIF demonstrating the interactive nature of the chatbot, including typing a query, receiving a streaming response, and viewing the attached sources.*
 
 ---
 
@@ -133,8 +110,7 @@ This Gradio-based web application provides a user-friendly way to interact with 
     *   Confirm `src/data_preprocessing.py` uses a small `sample_size` (e.g., `20000`).
     *   Verify `src/embedding.py` uses `chunk_size=256` and `chunk_overlap=50`.
     *   Confirm `src/rag/rag_pipeline.py` uses `k=1` for retrieval and `google/flan-t5-small` as the LLM.
-*   **`TypeError` or `AttributeError` in Gradio (`app.py`):** These were resolved by updating `app.py` to use `chatbot=gr.Chatbot(type='messages')` and adjusting the `predict` function's return format. Ensure your `app.py` matches the latest changes.
-*   **"Token indices sequence length is longer..." warning:** This indicates the input to the LLM is too long. We mitigated this by reducing `k` to 1 and `chunk_size` to 256. If it persists, the model might require even shorter inputs or a different model.
+
 *   **LLM Quality is Suboptimal:** The `google/flan-t5-small` model is a compromise for local execution. Its answers may be brief or less insightful. This is an acknowledged limitation due to resource constraints.
 
 ---
