@@ -52,13 +52,6 @@ This component handles loading, cleaning, and filtering the raw CFPB complaint d
     *   Filters narratives by length (5 to 500 words).
     *   Saves the processed data to `data/processed/filtered_complaints.csv`.
 
-*   **Key Files:** `src/data_preprocessing.py`, `notebooks/01_eda_preprocessing.ipynb`
-
-*   **Visualizations:**
-    *   **![Distribution of Complaints by Product](images/product_distribution.png)**
-        *Description: Bar chart showing the distribution of complaints across products after initial filtering (generated from `01_eda_preprocessing.ipynb`).*
-    *   **![Distribution of Narrative Lengths](images/narrative_lengths.png)**
-        *Description: Histogram illustrating the word count distribution of cleaned complaint narratives (generated from `01_eda_preprocessing.ipynb`).*
 
 ### 2. Text Embedding and Vector Store Indexing
 
