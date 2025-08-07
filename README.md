@@ -104,7 +104,6 @@ This Gradio-based web application provides a user-friendly way to interact with 
 
 ## ⚠️ Troubleshooting
 
-*   **`FileNotFoundError: 'data/raw/complaints.csv'`:** Ensure `complaints.csv` is placed in the `data/raw/` directory.
 *   **Memory/Crashing Issues:** If you experience memory issues during embedding or LLM inference:
     *   Ensure you have sufficient RAM.
     *   Confirm `src/data_preprocessing.py` uses a small `sample_size` (e.g., `20000`).
