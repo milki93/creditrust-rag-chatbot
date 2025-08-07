@@ -2,7 +2,7 @@ __pycache__/
 .ipynb_checkpoints/
 *.pyc
 .env/
-.env
+venv/
 vector_store/
 <<<<<<< HEAD
 data/raw/
