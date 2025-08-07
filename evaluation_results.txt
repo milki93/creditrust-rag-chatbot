@@ -1,0 +1,4 @@
+  File "/home/milky/Documents/10 Academy/creditrust-rag-chatbot/src/rag/rag_pipeline.py", line 253
+    "comments": "; '.join(comments) if comments else "Good."
+                                                           ^
+SyntaxError: unterminated string literal (detected at line 253)
